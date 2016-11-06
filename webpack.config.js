@@ -25,7 +25,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'regl'
+      title: 'regl',
+      template: './src/index.html'
     })
   ],
   devServer: {
