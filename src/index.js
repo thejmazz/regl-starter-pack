@@ -16,7 +16,8 @@ const drawTriangle = regl({
     ])
   },
   uniforms: {
-    color: regl.prop('color')
+    color: regl.prop('color'),
+    t: ({ tick }) => 0.01 * tick
   },
   count: 3
 })
