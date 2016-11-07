@@ -9,10 +9,11 @@ varying vec3 vnormal;
 
 void main () {
     vec3 p2 = position;
-    p2.z -= sin(t + p2.y);
-    /* p2.y = 0.0; */
+    p2.z += sin(t + p2.y*p2.x);
 
     vnormal = normal;
+    vnormal = normalize(p2);
+    /* vnormal.z = p2.z; */
     gl_Position = projection * view * model * vec4(p2, 1.0);
 }
 
