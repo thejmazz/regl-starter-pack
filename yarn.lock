@@ -2013,6 +2013,10 @@ primitive-cube:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/primitive-cube/-/primitive-cube-2.0.0.tgz#5e834455c83513cab98d04e42be77c580cdc5707"
 
+primitive-plane:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/primitive-plane/-/primitive-plane-1.1.0.tgz#cf6b06684db60ed8381b11e9d43a94490cf34087"
+
 private@^0.1.6, private@~0.1.5:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.6.tgz#55c6a976d0f9bafb9924851350fe47b9b5fbb7c1"

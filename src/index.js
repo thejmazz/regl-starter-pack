@@ -10,6 +10,7 @@ import dragon from 'stanford-dragon'
 
 // === Geometries ===
 import primitiveCube from 'primitive-cube'
+import primitivePlane from 'primitive-plane'
 
 // === Vertex Shaders ===
 import position from './shaders/vert/position.glsl'
@@ -28,7 +29,7 @@ import cameraConstructor from './util/camera.js'
 const regl = reglConstructor()
 // Instantiate camera
 const camera = cameraConstructor(regl, {
-  center: [0, 2.5, 0]
+  center: [0, 0, 0]
 })
 
 const drawModel = (model) => regl({
@@ -41,25 +42,18 @@ const drawModel = (model) => regl({
   elements: model.cells,
   uniforms: {
     t: ({ tick }) => tick * 0.01,
-    model: mat4.identity([]),
-    // view: ({ tick }) => {
-    //   const t = tick * 0.01
-    //   return mat4.lookAt([],
-    //     [30 * Math.cos(t), 2.5, 30 * Math.sin(t)],
-    //     [0, 2.5, 0],
-    //     [0, 1, 0]
-    //   )
-    // },
-    // projection: ({ viewportWidth, viewportHeight }) => {
-    //   return mat4.perspective([],
-    //     Math.PI / 4,
-    //     viewportWidth / viewportHeight,
-    //     0.01,
-    //     2000)
-    // },
+    model: () => {
+      const mat = mat4.identity([])
+      mat4.rotateX(mat, mat, Math.PI/2)
+      mat4.rotateY(mat, mat, Math.PI * -0.1)
+
+      return mat
+    },
     color: [0.5, 0.2, 0.6]
   }
 })
+
+const plane = primitivePlane(10, 10, 100, 100)
 
 regl.frame(() => {
   regl.clear({
@@ -68,7 +62,7 @@ regl.frame(() => {
   })
 
   camera(() => {
-    drawModel(primitiveCube())()
+    drawModel(plane)()
     // drawModel(bunny)()
   })
 })
