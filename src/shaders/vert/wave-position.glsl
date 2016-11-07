@@ -1,13 +1,18 @@
 precision mediump float;
 
+uniform mat4 model, view, projection;
 uniform float t;
 
-attribute vec3 position;
+attribute vec3 position, normal;
 
-void main() {
-    float x = position.x;
-    float y = position.y;
-    /* float y = position.y * sin(t + position.x); */
-    float z = position.z;
-    gl_Position = vec4(x, y, z, 1);
+varying vec3 vnormal;
+
+void main () {
+    vec3 p2 = position;
+    p2.z -= sin(t + p2.y);
+    /* p2.y = 0.0; */
+
+    vnormal = normal;
+    gl_Position = projection * view * model * vec4(p2, 1.0);
 }
+

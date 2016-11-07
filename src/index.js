@@ -33,7 +33,7 @@ const camera = cameraConstructor(regl, {
 })
 
 const drawModel = (model) => regl({
-  vert: pvmNormal,
+  vert: wavePosition,
   frag: normalMaterial,
   attributes: {
     position: model.positions,
