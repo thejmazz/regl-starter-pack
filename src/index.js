@@ -1,19 +1,35 @@
 import reglConstructor from 'regl'
-import bunny from 'bunny'
 import mat4 from 'gl-mat4'
+
+// === Models ===
+import bunny from 'bunny'
+import teapot from 'teapot'
+import dragon from 'stanford-dragon'
 
 const regl = reglConstructor()
 
+// === Shaders ===
+import position from './shaders/vert/position.glsl'
 import projectionViewModel from './shaders/vert/proj-view-model.glsl'
 import basicMaterial from './shaders/frag/basic.glsl'
 
-const drawBunny = regl({
-  vert: projectionViewModel,
+const drawModel = (model) => regl({
+  vert: position,
   frag: basicMaterial,
   attributes: {
-    position: bunny.positions
+    position: [
+      [-1, -1, 0], // 0 bottom-left
+      [1, -1, 0], // 1 bottom-right
+      [1, 1, 0], // 2 top-right
+      [-1, 1, 0] // 3 top-left
+    ]
   },
-  elements: bunny.cells,
+  elements: [
+    [0, 1, 2],
+    [0, 3, 2]
+  ],
+  // count: 3,
+  // elements: model.cells,
   uniforms: {
     model: mat4.identity([]),
     view: ({ tick }) => {
@@ -29,7 +45,7 @@ const drawBunny = regl({
         Math.PI / 4,
         viewportWidth / viewportHeight,
         0.01,
-        1000)
+        2000)
     },
     color: [0.5, 0.2, 0.6]
   }
@@ -41,5 +57,5 @@ regl.frame(() => {
     color: [0, 0, 0, 1]
   })
 
-  drawBunny()
+  drawModel(teapot)()
 })
