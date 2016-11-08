@@ -20,7 +20,8 @@ module.exports = {
       exclude: /node_modules/
     }, {
       test: /\.glsl$/,
-      loader: 'raw'
+      loaders: ['raw', 'glslify'],
+      exclude: /node_modules/
     }]
   },
   plugins: [
