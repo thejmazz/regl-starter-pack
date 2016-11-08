@@ -1,23 +1,28 @@
 precision mediump float;
+
 #pragma glslify: noise = require('glsl-noise/simplex/2d');
 
-float pattern(float v, float repeats, float threshold) {
-    float result = mod(v * repeats, 1.0);
-    return step(threshold, result);
-}
-
-const float PI=3.14159265358979323846;
+/* const float PI=3.14159265358979323846; */
 
 uniform vec3 color;
 uniform vec2 resolution;
 uniform float angle;
 uniform float t;
 
+varying vec2 vUv;
+
 vec4 offsetRepeat = vec4(0.0, 0.0, 1.0, 1.0);
 
+float pattern(float v, float repeats, float threshold) {
+    float result = mod(v * repeats, 1.0);
+    return step(threshold, result);
+}
+
 void main() {
-    vec2 vUv = gl_FragCoord.xy;
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
+    /* vec2 vUv = gl_FragCoord.xy; */
+    /* vec2 uv = gl_FragCoord.xy / resolution.xy; */
+    /* float vCoord = vUv.y / offsetRepeat.w; */
+    // V tex coord normalized to 0 - 1
     float vCoord = vUv.y / offsetRepeat.w;
 
     // offset coord with noise for distortions

@@ -17,6 +17,7 @@ import position from './shaders/vert/position.glsl'
 import wavePosition from './shaders/vert/wave-position.glsl'
 import pvm from './shaders/vert/proj-view-model.glsl'
 import pvmNormal from './shaders/vert/pvm-normal.glsl'
+import pvmVuv from './shaders/vert/pvm-vUv.glsl'
 
 // === Fragment Shaders ===
 import basicMaterial from './shaders/frag/basic.glsl'
@@ -34,7 +35,7 @@ const camera = cameraConstructor(regl, {
 })
 
 const drawModel = (model) => regl({
-  vert: pvm,
+  vert: pvmVuv,
   frag: diagonalsMaterial,
   attributes: {
     position: model.positions,
