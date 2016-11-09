@@ -26,19 +26,25 @@ void main() {
     float vCoord = vUv.y / offsetRepeat.w;
 
     // offset coord with noise for distortions
-    vCoord += 0.15 * noise(vec2(vUv.y * 0.05, t * 0.01));
-    vCoord += 0.01 * noise(vec2(vUv.x * 0.05, t * 0.01));
+    /* vCoord += 0.15 * noise(vec2(vUv.y * 0.05, t * 1.01)); */
+    /* vCoord += 0.01 * noise(vec2(vUv.x * 0.05, t * 1.01)); */
 
     // and/or offset these with noise too
     float repeats = 40.0; // total # of stripes
-    float thickness = 0.5; // between 0 - 1
+    float thickness = 0.2; // between 0 - 1
     float stripe = pattern(vCoord, repeats, thickness);
 
     // your two colors
     vec3 colorA = vec3(1.0);
     vec3 colorB = vec3(0.0);
-    gl_FragColor.rgb = mix(colorA, colorB, stripe);
-    gl_FragColor.a = 1.0;
+    /* gl_FragColor.rgb = mix(colorA, colorB, stripe); */
+    /* gl_FragColor.a = 1.0; */
+
+    float r = noise(vec2(vUv.y * 5.0, t * 1.0));
+    float g = noise(vec2(vUv.x * 5.0, t * 1.0));
+    float b = noise(vec2(vUv.x * vUv.y * 0.05, t * 1.0)) + 0.5;
+
+    gl_FragColor = vec4(r, g, b, 1.0);
 
     /* vec3 col; */
     /* if (uv.x > 0.5) { */
