@@ -51,6 +51,46 @@ const quad = regl({
 `
 })
 
+const points = regl({
+  attributes: {
+    position: [
+      [ -0.5, -0.5 ],
+      [ 0.5, -0.5 ],
+      [ 0, 0.5 ]
+    ]
+  },
+  uniforms: {
+    pointSize: 40
+  },
+  primitive: 'points',
+  count: 3,
+  vert: `
+  precision mediump float;
+
+  attribute vec2 position;
+
+  uniform float pointSize;
+
+  void main () {
+    gl_PointSize = pointSize;
+    gl_Position = vec4(position, 0, 1);
+  }
+`,
+  frag: `
+  precision mediump float;
+
+  uniform float pointSize;
+
+  void main () {
+    if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.5) {
+      discard;
+    }
+
+    gl_FragColor = vec4(0, 1, 0, 1);
+  }
+`
+})
+
 
 regl.frame(({ viewportWidth, viewportHeight }) => {
   regl.clear({
@@ -58,6 +98,7 @@ regl.frame(({ viewportWidth, viewportHeight }) => {
     color: [0, 0, 0, 1]
   })
 
-  quad()
+  // quad()
+  points({ pointSize: 4 })
 })
 
