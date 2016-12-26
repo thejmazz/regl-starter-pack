@@ -56,9 +56,19 @@ const HEIGHT = 64
 
 const pointsData = new Float32Array(WIDTH * HEIGHT * 2)
 
+const getPoint = () => {
+  const point = [
+    Math.random() - 0.5,
+    Math.random() - 0.5
+  ]
+
+  return point
+}
+
 for (let i = 0; i < pointsData.length; i += 2) {
-  pointsData[i + 0] = Math.random() - 0.5
-  pointsData[i + 1] = Math.random() - 0.5
+  const point = getPoint()
+
+  pointsData.set(point, i)
 }
 
 const points = regl({
