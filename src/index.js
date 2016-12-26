@@ -66,7 +66,9 @@ const points = regl({
     position: pointsData
   },
   uniforms: {
-    pointSize: 5
+    pointSize: 5,
+    width: regl.context('viewportWidth'),
+    height: regl.context('viewportHeight')
   },
   primitive: 'points',
   count: WIDTH * HEIGHT,
@@ -76,10 +78,20 @@ const points = regl({
   attribute vec2 position;
 
   uniform float pointSize;
+  uniform float width;
+  uniform float height;
+
+  vec2 getScale (float w, float h) {
+    if (w > h) {
+      return vec2(h / w, 1);
+    } else {
+      return vec2(1, w / h);
+    }
+  }
 
   void main () {
     gl_PointSize = pointSize;
-    gl_Position = vec4(position, 0, 1);
+    gl_Position = vec4(position * getScale(width, height), 0, 1);
   }
 `,
   frag: `
