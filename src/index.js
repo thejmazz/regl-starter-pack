@@ -1,12 +1,7 @@
 // === Modules ===
 import reglConstructor from 'regl'
 import mat4 from 'gl-mat4'
-import normals from 'angle-normals'
-
-// === Models ===
-import bunny from 'bunny'
-import teapot from 'teapot'
-import dragon from 'stanford-dragon'
+import vec2 from 'gl-vec2'
 
 // === Geometries ===
 import primitiveCube from 'primitive-cube'
@@ -57,12 +52,16 @@ const HEIGHT = 64
 const pointsData = new Float32Array(WIDTH * HEIGHT * 2)
 
 const getPoint = () => {
-  const point = [
+  const vec = vec2.fromValues(
     Math.random() - 0.5,
     Math.random() - 0.5
-  ]
+  )
 
-  return point
+  if (vec2.length(vec) > 0.5) {
+    return getPoint()
+  }
+
+  return vec
 }
 
 for (let i = 0; i < pointsData.length; i += 2) {
