@@ -2,6 +2,7 @@
 import reglConstructor from 'regl'
 import mat4 from 'gl-mat4'
 import vec2 from 'gl-vec2'
+import glsl from 'glslify'
 
 // === Geometries ===
 import primitiveCube from 'primitive-cube'
@@ -102,13 +103,17 @@ const points = regl({
 
   void main () {
     vec2 scale = getScale(width, height);
-    pos = position * scale;
+    /* pos = position * scale; */
+    pos = position;
 
     gl_PointSize = pointSize;
-    gl_Position = vec4(pos, 0, 1);
+    gl_Position = vec4(position * scale, 0, 1);
   }
 `,
-  frag: `
+  frag: glsl`
+  #define PI 3.1415926535897932384626433832795
+  #pragma glslify: hsl2rgb = require(glsl-hsl2rgb)
+
   precision mediump float;
 
   uniform float pointSize;
@@ -120,14 +125,16 @@ const points = regl({
       discard;
     }
 
-    float r = pos.x + 0.5;
-    float g = pos.y + 0.5;
+    float r = abs(pos.x);
+    float g = pos.y;
     float b = 0.;
     float a = 1.;
 
-    vec4 color = vec4(r, g, b, a);
+    float angle = (atan(pos.y, pos.x) + PI) / (2. * PI);
 
-    /* color = vec4(1, 1, 1, 1); */
+    vec3 rgb = hsl2rgb(angle, 0.5, 0.25);
+
+    vec4 color = vec4(rgb, 1);
 
     gl_FragColor = color;
   }
