@@ -91,6 +91,8 @@ const points = regl({
   uniform float width;
   uniform float height;
 
+  varying vec2 pos;
+
   vec2 getScale (float w, float h) {
     if (w > h) {
       return vec2(h / w, 1);
@@ -100,8 +102,11 @@ const points = regl({
   }
 
   void main () {
+    vec2 scale = getScale(width, height);
+    pos = position * scale;
+
     gl_PointSize = pointSize;
-    gl_Position = vec4(position * getScale(width, height), 0, 1);
+    gl_Position = vec4(pos, 0, 1);
   }
 `,
   frag: `
@@ -109,12 +114,23 @@ const points = regl({
 
   uniform float pointSize;
 
+  varying vec2 pos;
+
   void main () {
     if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.5) {
       discard;
     }
 
-    gl_FragColor = vec4(1, 1, 1, 1);
+    float r = pos.x + 0.5;
+    float g = pos.y + 0.5;
+    float b = 0.;
+    float a = 1.;
+
+    vec4 color = vec4(r, g, b, a);
+
+    /* color = vec4(1, 1, 1, 1); */
+
+    gl_FragColor = color;
   }
 `
 })
