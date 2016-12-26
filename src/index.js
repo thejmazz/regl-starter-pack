@@ -51,19 +51,25 @@ const quad = regl({
 `
 })
 
+const WIDTH = 64
+const HEIGHT = 64
+
+const pointsData = new Float32Array(WIDTH * HEIGHT * 2)
+
+for (let i = 0; i < pointsData.length; i += 2) {
+  pointsData[i + 0] = Math.random() - 0.5
+  pointsData[i + 1] = Math.random() - 0.5
+}
+
 const points = regl({
   attributes: {
-    position: [
-      [ -0.5, -0.5 ],
-      [ 0.5, -0.5 ],
-      [ 0, 0.5 ]
-    ]
+    position: pointsData
   },
   uniforms: {
-    pointSize: 40
+    pointSize: 5
   },
   primitive: 'points',
-  count: 3,
+  count: WIDTH * HEIGHT,
   vert: `
   precision mediump float;
 
@@ -86,7 +92,7 @@ const points = regl({
       discard;
     }
 
-    gl_FragColor = vec4(0, 1, 0, 1);
+    gl_FragColor = vec4(1, 1, 1, 1);
   }
 `
 })
